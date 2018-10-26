@@ -4,6 +4,7 @@ To build and run this project, first download the full Second Tech code package 
 ```bash
 git clone https://www.github.com/dafer45/SecondTechCode
 ```
+[TBTK](https://github.com/dafer45/TBTK) also needs to be installed. This code has been compiled and tested with TBTK v1.0.2.
 
 Next enter the folder 2018_10_26 and type
 ```bash
