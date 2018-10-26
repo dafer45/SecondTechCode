@@ -10,7 +10,7 @@ Next enter the folder 2018_10_26 and type
 ```bash
 cmake .
 make
-./build/Apllication
+./build/Application
 ```
 
 The resulting output can be found in the figures folder.
