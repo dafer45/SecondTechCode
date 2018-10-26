@@ -14,3 +14,5 @@ make
 ```
 
 The resulting output can be found in the figures folder.
+
+<b>Contact:</b> kristofer.bjornson@gmail.com
