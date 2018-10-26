@@ -11,3 +11,5 @@ cmake .
 make
 ./build/Apllication
 ```
+
+The resulting output can be found in the figures folder.
