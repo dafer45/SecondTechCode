@@ -30,12 +30,12 @@ Model createModel1D(){
 
 	//Create the Model.
 	Model model;
-	for(int x = 0; x < SIZE_X; x++){
-		double KX = 2*M_PI*x/(double)SIZE_X - M_PI;
+	for(int kx = 0; kx < SIZE_X; kx++){
+		double KX = 2*M_PI*kx/(double)SIZE_X - M_PI;
 		model << HoppingAmplitude(
 			-2*t*cos(KX),
-			{x},
-			{x}
+			{kx},
+			{kx}
 		);
 	}
 	model.construct();
@@ -51,14 +51,14 @@ Model createModel2D(){
 
 	//Create the Model.
 	Model model;
-	for(int x = 0; x < SIZE_X; x++){
-		for(int y = 0; y < SIZE_Y; y++){
-			double KX = 2*M_PI*x/(double)SIZE_X - M_PI;
-			double KY = 2*M_PI*y/(double)SIZE_Y - M_PI;
+	for(int kx = 0; kx < SIZE_X; kx++){
+		for(int ky = 0; ky < SIZE_Y; ky++){
+			double KX = 2*M_PI*kx/(double)SIZE_X - M_PI;
+			double KY = 2*M_PI*ky/(double)SIZE_Y - M_PI;
 			model << HoppingAmplitude(
 				-2*t*(cos(KX) + cos(KY)),
-				{x, y},
-				{x, y}
+				{kx, ky},
+				{kx, ky}
 			);
 		}
 	}
@@ -76,16 +76,16 @@ Model createModel3D(){
 
 	//Create the Model.
 	Model model;
-	for(int x = 0; x < SIZE_X; x++){
-		for(int y = 0; y < SIZE_Y; y++){
-			for(int z = 0; z < SIZE_Z; z++){
-				double KX = 2*M_PI*x/(double)SIZE_X - M_PI;
-				double KY = 2*M_PI*y/(double)SIZE_Y - M_PI;
-				double KZ = 2*M_PI*z/(double)SIZE_Z - M_PI;
+	for(int kx = 0; kx < SIZE_X; kx++){
+		for(int ky = 0; ky < SIZE_Y; ky++){
+			for(int kz = 0; kz < SIZE_Z; kz++){
+				double KX = 2*M_PI*kx/(double)SIZE_X - M_PI;
+				double KY = 2*M_PI*ky/(double)SIZE_Y - M_PI;
+				double KZ = 2*M_PI*kz/(double)SIZE_Z - M_PI;
 				model << HoppingAmplitude(
 					-2*t*(cos(KX) + cos(KY) + cos(KZ)),
-					{x, y, z},
-					{x, y, z}
+					{kx, ky, kz},
+					{kx, ky, kz}
 				);
 			}
 		}
