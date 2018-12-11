@@ -42,7 +42,8 @@ enum PotentialType{
 	HarmonicOscillator,
 	DoubleWell,
 	Step,
-	Barrier
+	Barrier,
+	DoubleSquareWell
 };
 
 //The type of the potential.
@@ -61,6 +62,23 @@ complex<double> squareWell(int x){
 	const int WELL_RIGHT_BOUNDARY_SITE = 300;
 
 	if(x < WELL_LEFT_BOUNDARY_SITE || x > WELL_RIGHT_BOUNDARY_SITE)
+		return 0;
+	else
+		return WELL_DEPTH;
+}
+
+//Double square well.
+complex<double> doubleSquareWell(int x){
+	//Parameters.
+	const double WELL_DEPTH = -0.7e-3;
+	const int LEFT_WELL_LEFT_BOUNDARY_SITE = 125;
+	const int LEFT_WELL_RIGHT_BOUNDARY_SITE = 225;
+	const int RIGHT_WELL_LEFT_BOUNDARY_SITE = 275;
+	const int RIGHT_WELL_RIGHT_BOUNDARY_SITE = 375;
+
+	if(x < LEFT_WELL_LEFT_BOUNDARY_SITE || x > RIGHT_WELL_RIGHT_BOUNDARY_SITE)
+		return 0;
+	else if(x > LEFT_WELL_RIGHT_BOUNDARY_SITE && x < RIGHT_WELL_LEFT_BOUNDARY_SITE)
 		return 0;
 	else
 		return WELL_DEPTH;
@@ -122,6 +140,8 @@ complex<double> potential(const Index &toIndex, const Index &fromIndex){
 		return infiniteSquareWell(x);
 	case SquareWell:
 		return squareWell(x);
+	case DoubleSquareWell:
+		return doubleSquareWell(x);
 	case HarmonicOscillator:
 		return harmonicOscillator(x);
 	case DoubleWell:
@@ -233,7 +253,15 @@ void plot(
 	);
 	for(int state = 0; state < NUM_STATES; state++){
 		plotter.plot(
-			probabilityDensities.getSlice({state, IDX_ALL})
+			probabilityDensities.getSlice({state, IDX_ALL}),
+			Decoration({0, 0, 0}, Decoration::LineStyle::Line, 2)
+		);
+
+		for(unsigned int n = 0; n < probabilityDensities.getRanges()[1]; n++)
+			probabilityDensities[{state, n}] = eigenValues(state);
+		plotter.plot(
+			probabilityDensities.getSlice({state, IDX_ALL}),
+			Decoration({224, 64, 64}, Decoration::LineStyle::Line, 1)
 		);
 	}
 	plotter.save(filename);
@@ -265,6 +293,7 @@ int main(int argc, char **argv){
 	vector<PotentialType> potentialTypes = {
 		InfiniteSquareWell,
 		SquareWell,
+		DoubleSquareWell,
 		HarmonicOscillator,
 		DoubleWell,
 		Step,
@@ -275,6 +304,7 @@ int main(int argc, char **argv){
 	vector<string> filenames = {
 		"figures/InfiniteSquareWell.png",
 		"figures/SquareWell.png",
+		"figures/DoubleSquareWell.png",
 		"figures/HarmonicOscillator.png",
 		"figures/DoubleWell.png",
 		"figures/Step.png",
