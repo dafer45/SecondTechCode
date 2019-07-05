@@ -1,5 +1,5 @@
 # Second Tech code package  
-This code package accompanies blog posts published on [second-tech.com](https://www.second-tech.com/wordpress/).
+This code package accompanies blog posts published on [second-tech.com](http://www.second-tech.com/wordpress/).
 
 | Folder         | Blog post                                                                                                                                                                                                                           |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
