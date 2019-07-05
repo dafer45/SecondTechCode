@@ -1,4 +1,4 @@
-This code accompanies the blog post [The graphene band structure](http://second-tech.com/wordpress/index.php/2019/07/05/the-graphene-band-structure/) on [second-tech.com](second-tech.com/wordpress).
+This code accompanies the blog post [The graphene band structure](http://second-tech.com/wordpress/index.php/2019/07/05/the-graphene-band-structure/) on [second-tech.com](http://www.second-tech.com/wordpress).
 
 To build and run this project, first download the full Second Tech code package by typing
 ```bash
