@@ -1,4 +1,4 @@
-This code accompanies the blog post [Creating Models with complex geometries using an IndexFilter in TBTK](http://second-tech.com/wordpress/index.php/2018/11/01/creating-models-with-complex-geometries-using-an-indexfilter-in-tbtk/) on [second-tech.com](https://www.second-tech.com/wordpress).
+This code accompanies the blog post [Creating Models with complex geometries using an IndexFilter in TBTK](http://second-tech.com/wordpress/index.php/2018/11/01/creating-models-with-complex-geometries-using-an-indexfilter-in-tbtk/) on [second-tech.com](http://www.second-tech.com/wordpress).
 
 To build and run this project, first download the full Second Tech code package by typing
 ```bash
@@ -15,4 +15,4 @@ make
 
 The resulting output can be found in the figures folder.
 
-<b>Contact:</b> kristofer.bjornson@gmail.com
+<b>Contact:</b> kristofer.bjornson@second-tech.com
