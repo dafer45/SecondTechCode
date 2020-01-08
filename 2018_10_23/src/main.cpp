@@ -14,14 +14,16 @@
  */
 
 #include "TBTK/Model.h"
-#include "TBTK/Plotter.h"
 #include "TBTK/PropertyExtractor/BlockDiagonalizer.h"
 #include "TBTK/Solver/BlockDiagonalizer.h"
+#include "TBTK/Smooth.h"
 #include "TBTK/Streams.h"
+#include "TBTK/TBTK.h"
+#include "TBTK/Visualization/MatPlotLib/Plotter.h"
 
 using namespace std;
 using namespace TBTK;
-using namespace Plot;
+using namespace Visualization::MatPlotLib;
 
 Model createModel1D(){
 	//Parameters.
@@ -96,6 +98,9 @@ Model createModel3D(){
 }
 
 int main(int argc, char **argv){
+	//Initialize TBTK.
+	Initialize();
+
 	//Filenames to save the figures as.
 	string filenames[3] = {
 		"figures/DOS_1D.png",
@@ -136,11 +141,14 @@ int main(int argc, char **argv){
 		for(unsigned int c = 0; c < dos.getResolution(); c++)
 			dos(c) = dos(c)/model.getBasisSize();
 
+		//Smooth the DOS.
+		const double SMOOTHING_SIGMA = 0.05;
+		const unsigned int SMOOTHING_WINDOW = 101;
+		dos = Smooth::gaussian(dos, SMOOTHING_SIGMA, SMOOTHING_WINDOW);
+
 		//Plot and save the result.
 		Plotter plotter;
-		plotter.setLabelX("Energy");
-		plotter.setLabelY("DOS");
-		plotter.plot(dos, 0.05, 101);
+		plotter.plot(dos);
 		plotter.save(filenames[n]);
 	}
 
