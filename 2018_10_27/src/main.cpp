@@ -17,6 +17,7 @@
 #include "TBTK/PropertyExtractor/Diagonalizer.h"
 #include "TBTK/Solver/Diagonalizer.h"
 #include "TBTK/Streams.h"
+#include "TBTK/TBTK.h"
 #include "TBTK/Visualization/MatPlotLib/Plotter.h"
 
 using namespace std;
@@ -24,6 +25,9 @@ using namespace TBTK;
 using namespace Visualization::MatPlotLib;
 
 int main(int argc, char **argv){
+	//Initialize TBTK.
+	Initialize();
+
 	//Parameters.
 	const unsigned int SIZE_X = 20;
 	const unsigned int SIZE_Y = 20;
