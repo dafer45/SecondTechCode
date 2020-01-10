@@ -15,14 +15,15 @@
 
 #include "TBTK/AbstractIndexFilter.h"
 #include "TBTK/Model.h"
-#include "TBTK/Plotter.h"
 #include "TBTK/PropertyExtractor/Diagonalizer.h"
 #include "TBTK/Solver/Diagonalizer.h"
 #include "TBTK/Streams.h"
+#include "TBTK/TBTK.h"
+#include "TBTK/Visualization/MatPlotLib/Plotter.h"
 
 using namespace std;
 using namespace TBTK;
-using namespace Plot;
+using namespace Visualization::MatPlotLib;
 
 //Parameters.
 const unsigned int SIZE = 41;
@@ -63,6 +64,9 @@ public:
 };
 
 int main(int argc, char **argv){
+	//Initialize TBTK.
+	Initialize();
+
 	//Create filter.
 	MyIndexFilter filter;
 
