@@ -13,15 +13,15 @@
  * limitations under the License.
  */
 
+#include "TBTK/Array.h"
 #include "TBTK/Model.h"
-#include "TBTK/Plotter.h"
 #include "TBTK/PropertyExtractor/Diagonalizer.h"
 #include "TBTK/Solver/Diagonalizer.h"
 #include "TBTK/Streams.h"
+#include "TBTK/TBTK.h"
 
 using namespace std;
 using namespace TBTK;
-using namespace Plot;
 
 int main(int argc, char **argv){
 	//Parameters.
