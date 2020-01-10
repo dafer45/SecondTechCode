@@ -14,14 +14,14 @@
  */
 
 #include "TBTK/Model.h"
-#include "TBTK/Plotter.h"
 #include "TBTK/PropertyExtractor/Diagonalizer.h"
 #include "TBTK/Solver/Diagonalizer.h"
 #include "TBTK/Streams.h"
+#include "TBTK/Visualization/MatPlotLib/Plotter.h"
 
 using namespace std;
 using namespace TBTK;
-using namespace Plot;
+using namespace Visualization::MatPlotLib;
 
 ///////////////////////
 // Model parameters. //
@@ -130,11 +130,8 @@ complex<double> barrier(int x){
 		return BARRIER_POTENTIAL_RIGHT;
 }
 
-//Callback that dynamically returns the current potential on a given
-//site.
-complex<double> potential(const Index &toIndex, const Index &fromIndex){
-	int x = fromIndex[0];
-
+//Function that dynamically returns the current potential on a given site.
+complex<double> potential(unsigned int x){
 	switch(potentialType){
 	case InfiniteSquareWell:
 		return infiniteSquareWell(x);
@@ -156,6 +153,17 @@ complex<double> potential(const Index &toIndex, const Index &fromIndex){
 	}
 }
 
+//Callback that dynamically returns the current potential on a given site.
+class PotentialCallback : public HoppingAmplitude::AmplitudeCallback{
+public:
+	complex<double> getHoppingAmplitude(
+		const Index &to,
+		const Index &from
+	) const{
+		return potential(from[0]);
+	}
+} potentialCallback;
+
 ////////////////////
 // Visualization. //
 ////////////////////
@@ -163,7 +171,7 @@ complex<double> potential(const Index &toIndex, const Index &fromIndex){
 Array<double> getPotential(){
 	Array<double> p({SIZE_X});
 	for(unsigned int x = 0; x < SIZE_X; x++)
-		p[{x}] = real(potential({x}, {x}));
+		p[{x}] = real(potential(x));
 
 	return p;
 }
@@ -245,23 +253,33 @@ void plot(
 
 	//Plot the potential and probability densities.
 	Plotter plotter;
+	plotter.setLabelX("x");
+	plotter.setLabelY("Energy and density");
 	plotter.setBoundsY(min, max);
-	plotter.setHold(true);
 	plotter.plot(
 		potential,
-		Decoration({224, 64, 64}, Decoration::LineStyle::Line, 2)
+		{{"color", "#E04040"}, {"linestyle", "-"}}
 	);
-	for(int state = 0; state < NUM_STATES; state++){
+	for(unsigned int state = 0; state < NUM_STATES; state++){
 		plotter.plot(
 			probabilityDensities.getSlice({state, IDX_ALL}),
-			Decoration({0, 0, 0}, Decoration::LineStyle::Line, 2)
+			{{"color", "black"}, {"linestyle", "-"}}
 		);
 
-		for(unsigned int n = 0; n < probabilityDensities.getRanges()[1]; n++)
+		for(
+			unsigned int n = 0;
+			n < probabilityDensities.getRanges()[1];
+			n++
+		){
 			probabilityDensities[{state, n}] = eigenValues(state);
+		}
 		plotter.plot(
 			probabilityDensities.getSlice({state, IDX_ALL}),
-			Decoration({224, 64, 64}, Decoration::LineStyle::Line, 1)
+			{
+				{"color", "#E04040"},
+				{"linestyle", "--"},
+				{"linewidth", "1"}
+			}
 		);
 	}
 	plotter.save(filename);
@@ -280,7 +298,7 @@ int main(int argc, char **argv){
 			model << HoppingAmplitude(-t, {x + 1}, {x}) + HC;
 
 		//Potential term.
-		model << HoppingAmplitude(potential, {x}, {x});
+		model << HoppingAmplitude(potentialCallback, {x}, {x});
 	}
 	model.construct();
 
