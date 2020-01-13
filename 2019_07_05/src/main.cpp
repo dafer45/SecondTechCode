@@ -15,24 +15,31 @@
 
 #include "TBTK/BrillouinZone.h"
 #include "TBTK/Model.h"
-#include "TBTK/Plotter.h"
 #include "TBTK/Property/DOS.h"
 #include "TBTK/PropertyExtractor/BlockDiagonalizer.h"
 #include "TBTK/Range.h"
+#include "TBTK/Smooth.h"
 #include "TBTK/Solver/BlockDiagonalizer.h"
 #include "TBTK/Streams.h"
+#include "TBTK/TBTK.h"
 #include "TBTK/UnitHandler.h"
 #include "TBTK/Vector3d.h"
+#include "TBTK/Visualization/MatPlotLib/Plotter.h"
 
 using namespace std;
 using namespace TBTK;
-using namespace Plot;
+using namespace Visualization::MatPlotLib;
 
 complex<double> i(0, 1);
 
 int main(int argc, char **argv){
+	//Initialize TBTK.
+	Initialize();
+
 	//Set the natural units for this calculation.
-	UnitHandler::setScales({"1 C", "1 pcs", "1 eV", "1 Ao", "1 K", "1 s"});
+	UnitHandler::setScales(
+		{"1 rad", "1 C", "1 pcs", "1 eV", "1 Ao", "1 K", "1 s"}
+	);
 
 	//Define parameters.
 	double t = 3;	//eV
@@ -125,10 +132,15 @@ int main(int argc, char **argv){
 
 	//Calculate the density of states.
 	Property::DOS dos = propertyExtractor.calculateDOS();
+
+	//Smooth the DOS.
+	const double SMOOTHING_SIGMA = 0.03;
+	const unsigned int SMOOTHING_WINDOW = 51;
+	dos = Smooth::gaussian(dos, SMOOTHING_SIGMA, SMOOTHING_WINDOW);
+
+	//Plot the DOS.
 	Plotter plotter;
-	plotter.setLabelX("Energy");
-	plotter.setLabelY("DOS");
-	plotter.plot(dos, 0.03);
+	plotter.plot(dos);
 	plotter.save("figures/DOS.png");
 
 	//Define high symmetry points.
@@ -183,13 +195,20 @@ int main(int argc, char **argv){
 
 	//Plot the band structure.
 	plotter.clear();
-	plotter.setHold(true);
 	plotter.setLabelX("k");
 	plotter.setLabelY("Energy");
-	plotter.plot(bandStructure.getSlice({0, _a_}));
-	plotter.plot(bandStructure.getSlice({1, _a_}));
-	plotter.plot({K_POINTS_PER_PATH, K_POINTS_PER_PATH}, {min, max});
-	plotter.plot({2*K_POINTS_PER_PATH, 2*K_POINTS_PER_PATH}, {min, max});
+	plotter.plot(bandStructure.getSlice({0, _a_}), {{"color", "black"}});
+	plotter.plot(bandStructure.getSlice({1, _a_}), {{"color", "black"}});
+	plotter.plot(
+		{K_POINTS_PER_PATH, K_POINTS_PER_PATH},
+		{min, max},
+		{{"color", "black"}}
+	);
+	plotter.plot(
+		{2*K_POINTS_PER_PATH, 2*K_POINTS_PER_PATH},
+		{min, max},
+		{{"color", "black"}}
+	);
 	plotter.save("figures/BandStructure.png");
 
 	return 0;
