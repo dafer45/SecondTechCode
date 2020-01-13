@@ -24,6 +24,9 @@ using namespace std;
 using namespace TBTK;
 
 int main(int argc, char **argv){
+	//Initialize TBTK.
+	Initialize();
+
 	//Parameters.
 	const int SIZE_X = 4;
 	const int SIZE_Y = 3;
