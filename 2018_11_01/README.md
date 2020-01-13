@@ -4,7 +4,7 @@ To build and run this project, first download the full Second Tech code package 
 ```bash
 git clone https://www.github.com/dafer45/SecondTechCode
 ```
-[TBTK](https://github.com/dafer45/TBTK) and [BLAS](http://www.netlib.org/blas/), [LAPACK](http://www.netlib.org/lapack/), and [OpenCV](https://opencv.org/) also needs to be installed. This code has been compiled and tested with TBTK v1.0.3.
+[TBTK](https://github.com/dafer45/TBTK) and [BLAS](http://www.netlib.org/blas/), [LAPACK](http://www.netlib.org/lapack/), and [OpenCV](https://opencv.org/) also needs to be installed. This code has been compiled and tested with TBTK v2.0.0.
 
 Next enter the folder 2018_11_01 and type
 ```bash
