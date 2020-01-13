@@ -17,6 +17,7 @@
 #include "TBTK/PropertyExtractor/Diagonalizer.h"
 #include "TBTK/Solver/Diagonalizer.h"
 #include "TBTK/Streams.h"
+#include "TBTK/TBTK.h"
 #include "TBTK/Visualization/MatPlotLib/Plotter.h"
 
 using namespace std;
@@ -289,6 +290,9 @@ void plot(
 // Main. //
 ///////////
 int main(int argc, char **argv){
+	//Initialize TBTK.
+	Initialize();
+
 	//Create the Model.
 	Model model;
 	for(unsigned int x = 0; x < SIZE_X; x++){
